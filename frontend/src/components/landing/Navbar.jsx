@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,14 +11,19 @@ export function Navbar() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold text-lg">
-              T
-            </div>
-            <span className="font-bold text-xl text-foreground">Tadbirek</span>
+          <div className="flex items-center gap-2 border-2">
+            <Link to="/">
+              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold text-lg">
+                T
+              </div>
+              <span className="font-bold text-xl text-foreground">
+                Tadbirek
+              </span>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
+          {}
           <div className="hidden md:flex gap-8">
             <a
               href="#features"
@@ -42,10 +48,10 @@ export function Navbar() {
           {/* Desktop CTA */}
           <div className="hidden md:flex gap-4">
             <Button variant="ghost" size="sm">
-              Se connecter
+              <Link to="/login">Se connecter</Link>
             </Button>
             <Button size="sm" className="rounded-full">
-              Commencer gratuitement
+              <Link to="/signup">Commencer gratuitement</Link>
             </Button>
           </div>
 
