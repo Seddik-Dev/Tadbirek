@@ -68,7 +68,7 @@ All displayed in a modern, minimal and easy-to-read interface.
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone https://github.com/your-username/tadbirek.git
+git clone https://github.com/Seddik-Dev/tadbirek.git
 cd tadbirek
 ```
 
@@ -118,12 +118,8 @@ http://127.0.0.1:8000
 ```
 tadbirek/
 │
-├── app/
-├── database/
-├── resources/
-├── routes/
-├── public/
-└── README.md
+├── frontend/
+└── backend /
 ```
 
 ---
