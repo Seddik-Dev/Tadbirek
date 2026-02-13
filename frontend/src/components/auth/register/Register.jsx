@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Lock, Mail, User, CheckCircle2 } from "lucide-react";
-import { Link } from "react-router-dom";
-import { Navbar } from "@/components/landing/Navbar";
+import { Link, useNavigate } from "react-router-dom";
+import api from "@/api/axios";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -12,6 +12,7 @@ export default function Register() {
     password: "",
     confirmPassword: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -20,15 +21,39 @@ export default function Register() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your signup logic here
-    console.log("Signup attempt with:", formData);
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+    try {
+      await api.get("/sanctum/csrf-cookie");
+
+      await api.post("/api/register", {
+        name: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+        password_confirmation: formData.confirmPassword,
+      });
+
+      const user = await api.get("/api/user");
+      console.log("Registered & logged in:", user.data);
+
+      navigate("/dashboard");
+    } catch (err) {
+      console.error(err);
+
+      if (err.response?.status === 422) {
+        alert("Invalid data or email already exists");
+      } else {
+        alert("Something went wrong, try again");
+      }
+    }
   };
 
   return (
     <div>
-      <Navbar />
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center px-4 py-8">
         <div className="w-full max-w-md">
           {/* Card Container */}

@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, CheckCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function HeroSection() {
   return (
@@ -38,17 +39,20 @@ export function HeroSection() {
             </div>
 
             {/* CTA Buttons */}
+
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button
-                size="lg"
-                className="rounded-lg px-8 gap-2 group hover:scale-105 transition-transform shadow-md bg-blue-600"
-              >
-                Commencer gratuitement
-                <ArrowRight
-                  size={18}
-                  className="group-hover:translate-x-1 transition-transform"
-                />
-              </Button>
+              <Link to="/login">
+                <Button
+                  size="lg"
+                  className="rounded-lg px-8 gap-2 group hover:scale-105 transition-transform shadow-md bg-blue-600"
+                >
+                  Commencer gratuitement
+                  <ArrowRight
+                    size={18}
+                    className="group-hover:translate-x-1 transition-transform"
+                  />
+                </Button>
+              </Link>
             </div>
 
             {/* Trust indicators */}

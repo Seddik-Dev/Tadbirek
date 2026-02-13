@@ -1,49 +1,53 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const isAuthPage =
+    location.pathname.startsWith("/login") ||
+    location.pathname.startsWith("/signup");
 
   return (
     <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center gap-2 border-2">
-            <Link to="/">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold text-lg">
+          <Link to="/">
+            <div className="flex items-center gap-2">
+              <span className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold text-lg">
                 T
-              </div>
+              </span>
               <span className="font-bold text-xl text-foreground">
                 Tadbirek
               </span>
-            </Link>
-          </div>
-
+            </div>
+          </Link>
           {/* Desktop Navigation */}
-          {}
-          <div className="hidden md:flex gap-8">
-            <a
-              href="#features"
-              className="text-foreground/70 hover:text-foreground transition-colors"
-            >
-              Fonctionnalités
-            </a>
-            <a
-              href="#how-it-works"
-              className="text-foreground/70 hover:text-foreground transition-colors"
-            >
-              Comment ça marche
-            </a>
-            <a
-              href="#benefits"
-              className="text-foreground/70 hover:text-foreground transition-colors"
-            >
-              Avantages
-            </a>
-          </div>
+          {!isAuthPage && (
+            <div className="hidden md:flex gap-8">
+              <a
+                href="#features"
+                className="text-foreground/70 hover:text-foreground transition-colors"
+              >
+                Fonctionnalités
+              </a>
+              <a
+                href="#how-it-works"
+                className="text-foreground/70 hover:text-foreground transition-colors"
+              >
+                Comment ça marche
+              </a>
+              <a
+                href="#benefits"
+                className="text-foreground/70 hover:text-foreground transition-colors"
+              >
+                Avantages
+              </a>
+            </div>
+          )}
 
           {/* Desktop CTA */}
           <div className="hidden md:flex gap-4">
@@ -66,7 +70,7 @@ export function Navbar() {
         </div>
 
         {/* Mobile Navigation */}
-        {isOpen && (
+        {isOpen && !isAuthPage && (
           <div className="md:hidden pb-4 space-y-3 animate-slide-up">
             <a
               href="#features"

@@ -2,22 +2,43 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Lock, Mail } from "lucide-react";
-import { Link } from "react-router-dom";
-import { Navbar } from "@/components/landing/Navbar";
+import { Link, useNavigate } from "react-router-dom";
+import api from "@/api/axios";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your login logic here
-    console.log("Login attempt with:", { email, password });
+    setError("");
+
+    try {
+      await api.get("/sanctum/csrf-cookie");
+
+      await api.post("/api/login", {
+        email,
+        password,
+      });
+
+      const user = await api.get("/api/user");
+      console.log("Logged in user:", user.data);
+
+      navigate("/dashboard");
+    } catch (err) {
+      if (err.response?.status === 422) {
+        setError("Invalid email or password");
+      } else {
+        setError("Something went wrong. Try again.");
+      }
+    }
   };
 
   return (
     <div>
-      <Navbar />
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center px-4">
         <div className="w-full max-w-md">
           {/* Card Container */}
@@ -85,6 +106,7 @@ export default function Login() {
                 </Link>
               </div>
 
+              {error && <p className="text-red-500 text-sm">{error}</p>}
               {/* Submit Button */}
               <Button
                 type="submit"
